@@ -149,7 +149,7 @@ export const DELETE = async (request) => {
   const foundStudent = DB.enrollments.find((x) => x.studentId === studentId);
   const foundCourse = DB.enrollments.find((x) => x.courseNo === courseNo);
 
-  if (!foundStudent && !foundCourse) 
+  if (!foundStudent || !foundCourse) 
     return NextResponse.json(
       {
         ok: false,
