@@ -146,8 +146,10 @@ export const DELETE = async (request) => {
   const { studentId, courseNo } = body;
 
   //check if studentId and courseNo exist on enrollment
-  const foundStudent = DB.enrollments.findIndex((x) => x.studentId === studentId && x.courseNo === courseNo);
-  if (!foundStudent) 
+  const foundStudent = DB.enrollments.find((x) => x.studentId === studentId);
+  const foundCourse = DB.enrollments.find((x) => x.courseNo === courseNo);
+
+  if (!foundStudent && !foundCourse) 
     return NextResponse.json(
       {
         ok: false,
@@ -157,7 +159,7 @@ export const DELETE = async (request) => {
     );
 
   //perform deletion by using splice or array filter
-  DB.enrollments.splice(foundStudent,1);
+  DB.enrollments = DB.enrollments.filter((x) => x.studentId !== studentId);
   //if code reach here it means deletion is complete
   return NextResponse.json({
     ok: true,
